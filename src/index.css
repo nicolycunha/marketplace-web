@@ -12,4 +12,7 @@
   --color-shape: #f5eaea;
   --color-danger: #dc3545;
   --color-success: #28a745;
+
+  --font-poppins: 'Poppins', sans-serif;
+  --font-dm-sans: 'DM Sans', sans-serif;
 }
