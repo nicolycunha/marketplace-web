@@ -1,3 +1,6 @@
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Mail02Icon } from '@hugeicons/core-free-icons'
+
 export function App() {
   return (
     <>
@@ -7,6 +10,8 @@ export function App() {
       <button className="bg-orange-base text-white px-4 py-2 rounded">
         Clique aqui
       </button>
+
+      <HugeiconsIcon icon={Mail02Icon} size={32} color="#FF5733" />
     </>
   )
 }
