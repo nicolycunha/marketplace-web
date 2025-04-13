@@ -8,9 +8,68 @@
   --color-blue-dark: #009cf0;
   --color-background: #fbf4f4;
   --color-shape: #f5eaea;
+  --color-gray-100: #adadad;
+  --color-gray-200: #949494;
+  --color-gray-300: #666666;
+  --color-gray-400: #3d3d3d;
+  --color-gray-500: #1d1d1d;
   --color-danger: #dc3545;
   --color-success: #28a745;
 
   --font-poppins: 'Poppins', sans-serif;
   --font-dm-sans: 'DM Sans', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background;
+  }
+}
+
+@layer utilities {
+  .font-title-lg {
+    font: 700 1.75rem/1.2 var(--font-dm-sans);
+  }
+
+  .font-title-md {
+    font: 700 1.5rem/1.2 var(--font-dm-sans);
+  }
+
+  .font-title-sm {
+    font: 700 1.125rem/1.2 var(--font-dm-sans);
+  }
+
+  .font-subtitle {
+    font: 600 1rem/1.2 var(--font-poppins);
+  }
+
+  .font-body-md {
+    font: 400 1rem/1.2 var(--font-poppins);
+  }
+
+  .font-body-sm {
+    font: 400 0.875rem/1.2 var(--font-poppins);
+  }
+
+  .font-body-xs {
+    font: 400 0.75rem/1.2 var(--font-poppins);
+  }
+
+  .font-label-md {
+    font: 500 0.75rem/1.2 var(--font-poppins);
+    text-transform: uppercase;
+  }
+
+  .font-label-sm {
+    font: 500 0.625rem/1.2 var(--font-poppins);
+    text-transform: uppercase;
+  }
+
+  .font-action-md {
+    font: 500 1rem/1.2 var(--font-poppins);
+  }
+
+  .font-action-sm {
+    font: 500 0.875rem/1.2 var(--font-poppins);
+  }
 }
