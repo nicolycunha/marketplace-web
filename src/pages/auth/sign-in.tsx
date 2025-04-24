@@ -62,7 +62,7 @@ export function SignIn() {
           onSubmit={handleSubmit(handleSignIn)}
           className="flex flex-col gap-5"
         >
-          <div className="space-y-2 group">
+          <div className="space-y-2">
             <label className={'font-label-md text-gray-300'} htmlFor="email">
               E-mail
             </label>
