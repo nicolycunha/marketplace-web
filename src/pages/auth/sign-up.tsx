@@ -67,7 +67,7 @@ export function SignUp() {
   const { mutateAsync: createNewSeller } = useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      navigate('/', { replace: true })
+      navigate('/dashboard', { replace: true })
     }
   })
 
@@ -116,7 +116,7 @@ export function SignUp() {
 
             <div className="space-y-2 w-fit">
               <label htmlFor="file">
-                <Picture isSmall preview={preview} />
+                <Picture size="lg" preview={preview} />
                 <input
                   id="file"
                   type="file"
