@@ -38,7 +38,7 @@ export function Header() {
         </NavLink>
 
         <NavLink
-          to="/pedidos"
+          to="/orders"
           className={({ isActive }) =>
             `font-action-sm flex gap-2 justify-between items-center border-none py-3 px-4 rounded-xl hover:cursor-pointer hover:text-orange-base
             ${isActive ? 'bg-shape text-orange-base' : 'text-gray-300'}

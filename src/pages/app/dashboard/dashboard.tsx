@@ -1,3 +1,4 @@
+import { Chart } from '@/components/chat'
 import { Card } from '@/components/dashboard-card'
 import {
   SaleTag02Icon,
@@ -34,6 +35,7 @@ export function Dashboard() {
             secondText="visitantes"
           />
         </div>
+        <Chart />
       </section>
     </div>
   )
