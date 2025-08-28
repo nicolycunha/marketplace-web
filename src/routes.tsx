@@ -4,7 +4,7 @@ import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
 import { AppLayout } from './pages/_layout/app'
 import { Dashboard } from './pages/app/dashboard/dashboard'
-import { Order } from './pages/app/orders/orders'
+import { Orders } from './pages/app/orders/orders'
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/orders',
-        element: <Order />
+        element: <Orders />
       }
     ]
   },
