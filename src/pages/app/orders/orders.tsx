@@ -1,6 +1,6 @@
 import mockProducts from '@/api/mock/products'
-import { Filter } from './filter'
-import { ProductCard } from './product-card'
+import { Filter } from './components/filter'
+import { ProductCard } from './components/product-card'
 
 export function Orders() {
   return (

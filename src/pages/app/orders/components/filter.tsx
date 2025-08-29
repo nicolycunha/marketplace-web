@@ -1,4 +1,4 @@
-import CustomSelect from '@/components/select'
+import CustomSelect from '@/components/forms/custom-select'
 import { Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 

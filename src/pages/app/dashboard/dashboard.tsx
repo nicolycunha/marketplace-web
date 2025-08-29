@@ -1,5 +1,5 @@
-import { Chart } from '@/components/chat'
-import { Card } from '@/components/dashboard-card'
+import { Chart } from '@/pages/app/dashboard/components/chart'
+import { Card } from '@/pages/app/dashboard/components/dashboard-card'
 import {
   SaleTag02Icon,
   Store04Icon,

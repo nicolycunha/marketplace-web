@@ -1,4 +1,4 @@
-import { AuthCard } from '@/components/auth-card'
+import { AuthCard } from '@/pages/auth/components/auth-card'
 import {
   AccessIcon,
   ArrowRight02Icon,
@@ -10,10 +10,11 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
-import { signIn } from '@/api/sign-in'
+import { signIn } from '@/api/services/sign-in'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
+import { authConfig } from '@/utils/auth'
 
 const signInForm = z.object({
   email: z.string().email(),
@@ -49,7 +50,7 @@ export function SignIn() {
       password: data.password
     })
 
-    localStorage.setItem('token', result.accessToken)
+    localStorage.setItem(authConfig.TOKEN_KEY, result.accessToken)
   }
 
   return (

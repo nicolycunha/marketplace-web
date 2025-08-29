@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
-import { Picture } from '@/components/picture'
-import { signUp } from '@/api/sign-up'
+import { Picture } from '@/components/forms/picture'
+import { signUp } from '@/api/services/sign-up'
 
-import { AuthCard } from '@/components/auth-card'
+import { AuthCard } from '@/pages/auth/components/auth-card'
 import {
   AccessIcon,
   ArrowRight02Icon,
@@ -19,7 +19,7 @@ import {
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { uploadAttachments } from '@/api/upload-attachments'
+import { uploadAttachments } from '@/api/services/upload-attachments'
 
 const signUpForm = z
   .object({

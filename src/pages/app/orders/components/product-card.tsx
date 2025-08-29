@@ -1,5 +1,5 @@
-import { TagCategory } from '@/pages/app/orders/tag-category'
-import { TagStatus } from '@/pages/app/orders/tag-status'
+import { TagCategory } from '@/pages/app/orders/components/tag-category'
+import { TagStatus } from '@/pages/app/orders/components/tag-status'
 import { ProductType } from '@/types/product.types'
 import { useNavigate } from 'react-router-dom'
 

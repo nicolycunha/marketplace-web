@@ -3,12 +3,12 @@ import {
   PackageIcon,
   PlusSignIcon
 } from '@hugeicons/core-free-icons'
-import Logo from '../assets/logo.svg'
+import Logo from '../../assets/logo.svg'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { NavLink } from 'react-router-dom'
-import { Picture } from './picture'
+import { Picture } from '../forms/picture'
 import { useQuery } from '@tanstack/react-query'
-import { getSellerProfile } from '@/api/get-seller-profile'
+import { getSellerProfile } from '@/api/services/get-seller-profile'
 
 export function Header() {
   const { data: seller } = useQuery({
