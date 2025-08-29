@@ -1,29 +1,30 @@
-import { TagCategory } from '@/components/tag-cat'
-import { TagStatus } from '@/components/tag-status'
-
-export interface ProductCardProps {
-  title: string
-  description: string
-  priceInCents: number
-  status: 'anunciado' | 'vendido' | 'desativado'
-  category: string
-  attachments: {
-    url: string
-  }[]
-}
+import { TagCategory } from '@/pages/app/orders/tag-category'
+import { TagStatus } from '@/pages/app/orders/tag-status'
+import { ProductType } from '@/types/product.types'
+import { useNavigate } from 'react-router-dom'
 
 export function ProductCard({
+  id,
   title,
   description,
   priceInCents,
   status,
   category,
   attachments
-}: ProductCardProps) {
+}: ProductType) {
   const attachment = attachments[0]
 
+  const navigate = useNavigate()
+
+  function handleEditProduct(productId: string) {
+    navigate(`/product/${productId}`, { replace: true })
+  }
+
   return (
-    <div className="relative w-full p-1 flex flex-col bg-white rounded-3xl hover:shadow-md transition-shadow">
+    <div
+      className="relative w-full p-1 flex flex-col bg-white rounded-3xl hover:shadow-md transition-shadow hover:cursor-pointer"
+      onClick={() => handleEditProduct(id)}
+    >
       {attachment && (
         <img
           src={attachment.url}
@@ -34,7 +35,7 @@ export function ProductCard({
 
       <section className="absolute right-3 top-3 flex gap-1">
         <TagStatus text={status} />
-        <TagCategory text={category} />
+        <TagCategory title={category.title} />
       </section>
 
       <div className="p-3">
