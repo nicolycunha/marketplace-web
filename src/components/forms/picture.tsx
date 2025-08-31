@@ -2,23 +2,24 @@ import { ImageUploadIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
 interface PictureProps {
-  size: 'sm' | 'lg' | 'xl'
+  size?: 'sm' | 'lg' | 'xl'
   preview?: string | null
 }
 
 export function Picture({ size, preview = null }: PictureProps) {
-  const baseClasses = 'flex items-center justify-center bg-shape rounded-xl'
+  const baseClasses = 'flex items-center justify-center bg-shape aspect-square'
 
   const isNotSmall = size !== 'sm'
+  const isExtraLarge = size === 'xl'
 
   let sizeClass = ''
 
   if (size === 'sm') {
-    sizeClass = 'w-12 h-12'
+    sizeClass = 'w-12 h-12 rounded-xl'
   } else if (size === 'lg') {
-    sizeClass = 'w-24 h-24'
-  } else if (size === 'xl') {
-    sizeClass = 'w-48 h-48'
+    sizeClass = 'w-24 h-24 rounded-xl'
+  } else if (isExtraLarge) {
+    sizeClass = 'rounded-3xl'
   }
 
   return (
@@ -45,10 +46,19 @@ export function Picture({ size, preview = null }: PictureProps) {
           )}
         </>
       ) : (
-        <HugeiconsIcon
-          icon={ImageUploadIcon}
-          className="h-8 w-8 text-orange-base"
-        />
+        <div className="flex flex-col items-center justify-center">
+          <HugeiconsIcon
+            icon={ImageUploadIcon}
+            className={`${
+              isExtraLarge ? 'h-10 w-10' : 'h-8 w-8'
+            } text-orange-base`}
+          />
+          {isExtraLarge && (
+            <p className="font-body-sm pt-4 text-center text-gray-300">
+              Selecione a imagem <br /> do produto
+            </p>
+          )}
+        </div>
       )}
     </div>
   )

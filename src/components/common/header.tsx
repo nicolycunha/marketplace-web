@@ -51,10 +51,13 @@ export function Header() {
       </div>
 
       <div className="flex gap-4 items-center">
-        <button className="bg-orange-base font-action-sm flex gap-2 justify-between items-center border-none py-3 px-4 rounded-xl text-white hover:cursor-pointer hover:bg-orange-dark">
+        <NavLink
+          to="/product"
+          className="bg-orange-base font-action-sm flex gap-2 justify-between items-center border-none py-3 px-4 rounded-xl text-white hover:cursor-pointer hover:bg-orange-dark"
+        >
           <HugeiconsIcon icon={PlusSignIcon} className="h-4 w-4" />
           Novo produto
-        </button>
+        </NavLink>
         <Picture size="sm" preview={seller?.seller.avatar.url} />
       </div>
     </div>

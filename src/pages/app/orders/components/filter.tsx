@@ -1,5 +1,5 @@
 import CustomSelect from '@/components/forms/custom-select'
-import { Search01Icon } from '@hugeicons/core-free-icons'
+import { SaleTag02Icon, Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -77,7 +77,7 @@ export function Filter({ onFiltersChange, initialValues }: FilterProps) {
         </div>
       </div>
 
-      <CustomSelect name="status" control={control} />
+      <CustomSelect name="status" control={control} icon={SaleTag02Icon} />
 
       <button
         className="bg-orange-base w-full mt-10 font-action-md border-none p-4 rounded-xl text-white hover:cursor-pointer hover:bg-orange-dark"
