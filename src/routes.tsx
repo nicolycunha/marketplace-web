@@ -7,7 +7,6 @@ import { Dashboard } from './pages/app/dashboard/dashboard'
 import { Orders } from './pages/app/orders/orders'
 import { Product } from './pages/app/product/product'
 import { ProtectedRoute } from './routes/protected-route'
-import { PublicRoute } from './routes/public-route'
 
 export const router = createBrowserRouter([
   {
@@ -38,11 +37,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: (
-      <PublicRoute>
-        <AuthLayout />
-      </PublicRoute>
-    ),
+    element: <AuthLayout />,
     children: [
       {
         path: '/sign-in',
