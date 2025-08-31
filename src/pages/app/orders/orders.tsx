@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getAllProductsFromSeller } from '@/api/services/get-all-products-from-seller'
 import { useSearchParams } from 'react-router-dom'
+import { convertCentsToReais } from '@/utils/utils'
 
 export function Orders() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,10 +27,6 @@ export function Orders() {
 
     setFilters(urlFilters)
   }, [searchParams])
-
-  const convertCentsToReais = (cents: number): string => {
-    return (cents / 100).toFixed(2).replace('.', ',')
-  }
 
   const filteredProducts = useMemo(() => {
     if (products.length > 0) {

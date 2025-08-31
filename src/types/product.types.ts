@@ -1,6 +1,5 @@
 import { AttachmentType } from './attachment.types'
 import { CategoryType } from './category.types'
-import { Status } from './enums'
 import { UserType } from './user.types'
 
 export interface ProductType {
@@ -8,7 +7,7 @@ export interface ProductType {
   title: string
   description: string
   priceInCents: number
-  status: Status
+  status: 'available' | 'sold' | 'canceled'
   owner: UserType
   category: CategoryType
   attachments: AttachmentType[]

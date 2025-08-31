@@ -1,24 +1,115 @@
-import CustomSelect from '@/components/forms/custom-select'
+import { createProductToSell } from '@/api/services/create-product-to-sell'
+import { getCategories } from '@/api/services/get-category'
+import { uploadAttachments } from '@/api/services/upload-attachments'
+import CustomSelect, {
+  CustomSelectOption
+} from '@/components/forms/custom-select'
 import { Picture } from '@/components/forms/picture'
-import { Category } from '@/types/enums'
+import { convertReaisToCents } from '@/utils/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { InformationCircleIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { useMutation } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { z } from 'zod'
 
-const productSchema = z.object({
-  category: z.string()
+const productForm = z.object({
+  title: z.string().min(1, { message: 'O título é obrigatório' }),
+  price: z.string().min(1, { message: 'O preço é obrigatório' }),
+  description: z.string().min(1, { message: 'A descrição é obrigatória' }),
+  category: z.string().min(1, { message: 'A categoria é obrigatória' }),
+  file: z.any().refine(file => file instanceof FileList && file.length > 0, {
+    message: 'A imagem é obrigatória'
+  })
 })
 
-type ProductSchema = z.infer<typeof productSchema>
+type ProductForm = z.infer<typeof productForm>
 
 export function Product() {
+  const [preview, setPreview] = useState<string | null>(null)
+  const [categoriesOptions, setCategoriesOptions] = useState<
+    CustomSelectOption[]
+  >([])
   const { id } = useParams<{ id: string }>()
   const isEditing = Boolean(id)
 
-  const { control } = useForm<ProductSchema>({
-    resolver: zodResolver(productSchema)
+  const navigate = useNavigate()
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { isSubmitting, errors }
+  } = useForm<ProductForm>({
+    resolver: zodResolver(productForm)
   })
+
+  const { mutateAsync: createNewProduct } = useMutation({
+    mutationFn: createProductToSell,
+    onSuccess: () => {
+      navigate('/orders', { replace: true })
+    }
+  })
+
+  const { mutateAsync: uploadAttachmentsFn } = useMutation({
+    mutationFn: uploadAttachments
+  })
+
+  const fileList = watch('file')
+
+  useEffect(() => {
+    if (fileList && fileList.length > 0) {
+      const url = URL.createObjectURL(fileList[0])
+      setPreview(url)
+
+      return () => URL.revokeObjectURL(url)
+    } else {
+      setPreview(null)
+    }
+  }, [fileList])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categories = await getCategories()
+
+      const options = categories.map(category => ({
+        value: category.id,
+        label: category.title
+      }))
+
+      setCategoriesOptions(options)
+    }
+
+    fetchCategories()
+  }, [])
+
+  async function handleSaveProduct(data: ProductForm) {
+    const fileList = data.file as FileList
+
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0]
+      const attachmentsIds = await getAttachments(file)
+      const priceInCents = convertReaisToCents(data.price)
+
+      await createNewProduct({
+        ...data,
+        attachmentsIds: attachmentsIds,
+        categoryId: data.category,
+        priceInCents
+      })
+    }
+  }
+
+  async function getAttachments(file: File) {
+    const attachmentResponse = await uploadAttachmentsFn({
+      files: [file]
+    })
+    const idAttachment = attachmentResponse.attachments[0].id
+    return [idAttachment]
+  }
 
   // useEffect(() => {
   //   if (isEditing && id) {
@@ -26,11 +117,6 @@ export function Product() {
   //     fetchProduct(id);
   //   }
   // }, [id, isEditing]);
-
-  const categoryOptions = Object.entries(Category).map(([key, value]) => ({
-    value: key.toLowerCase(),
-    label: value
-  }))
 
   return (
     <div className="my-16 mx-42 ">
@@ -42,13 +128,33 @@ export function Product() {
           ? 'Edit product'
           : 'Cadastre um produto para venda no marketplace'}
       </p>
-      <section className="grid grid-cols-3 gap-6">
-        <Picture size="xl" />
+      <form
+        onSubmit={handleSubmit(handleSaveProduct)}
+        className="grid grid-cols-3 gap-6"
+      >
+        <div className="space-y-2">
+          <label htmlFor="file">
+            <Picture size="xl" preview={preview} />
+            <input
+              id="file"
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp"
+              hidden
+              {...register('file')}
+            />
+          </label>
+          {errors.file && (
+            <span className="flex items-center gap-1 mt-1 text-orange-base text-sm">
+              <HugeiconsIcon
+                icon={InformationCircleIcon}
+                className="h-4 w-4 text-orange-base"
+              />
+              {errors.file.message?.toString()}
+            </span>
+          )}
+        </div>
 
-        <form
-          action=""
-          className="col-span-2 bg-white p-6 rounded-3xl h-fit w-full flex flex-col gap-5"
-        >
+        <div className="col-span-2 bg-white p-6 rounded-3xl h-fit w-full flex flex-col gap-5">
           <h1 className="font-title-sm text-gray-300">Dados do produto</h1>
 
           <div className="grid grid-cols-3 gap-5">
@@ -61,8 +167,18 @@ export function Product() {
                   className="appearance-none bg-transparent border-none h-12 w-full text-gray-400 font-body-md placeholder:text-gray-200 focus:outline-none focus:caret-orange-base "
                   id="title"
                   placeholder="Nome do produto"
+                  {...register('title')}
                 />
               </div>
+              {errors.title && (
+                <span className="flex items-center gap-1 mt-1 text-orange-base text-sm">
+                  <HugeiconsIcon
+                    icon={InformationCircleIcon}
+                    className="h-4 w-4 text-orange-base"
+                  />
+                  {errors.title.message}
+                </span>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -76,8 +192,18 @@ export function Product() {
                   type="number"
                   id="price"
                   placeholder="0,00"
+                  {...register('price')}
                 />
               </div>
+              {errors.price && (
+                <span className="flex items-center gap-1 mt-1 text-orange-base text-sm">
+                  <HugeiconsIcon
+                    icon={InformationCircleIcon}
+                    className="h-4 w-4 text-orange-base"
+                  />
+                  {errors.price.message}
+                </span>
+              )}
             </div>
           </div>
 
@@ -94,8 +220,18 @@ export function Product() {
                 id="description"
                 placeholder="Escreva detalhes sobre o produto, tamanho, características"
                 rows={4}
+                {...register('description')}
               />
             </div>
+            {errors.description && (
+              <span className="flex items-center gap-1 mt-1 text-orange-base text-sm">
+                <HugeiconsIcon
+                  icon={InformationCircleIcon}
+                  className="h-4 w-4 text-orange-base"
+                />
+                {errors.description.message}
+              </span>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -106,7 +242,7 @@ export function Product() {
               name="category"
               control={control}
               placeholder="Selecione"
-              options={categoryOptions}
+              options={categoriesOptions}
             />
           </div>
 
@@ -118,12 +254,13 @@ export function Product() {
             <button
               className="bg-orange-base font-action-md border-none p-4 rounded-xl text-white hover:cursor-pointer hover:bg-orange-dark"
               type="submit"
+              disabled={isSubmitting}
             >
               Salvar e publicar
             </button>
           </div>
-        </form>
-      </section>
+        </div>
+      </form>
     </div>
   )
 }

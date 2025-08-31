@@ -7,7 +7,7 @@ import {
   Tick02Icon
 } from '@hugeicons/core-free-icons'
 
-interface CustomSelectOption {
+export interface CustomSelectOption {
   value: string
   label: string
 }
@@ -15,7 +15,7 @@ interface CustomSelectOption {
 interface CustomSelectProps<T extends FieldValues> {
   name: Path<T>
   control: Control<T>
-  options?: CustomSelectOption[]
+  options: CustomSelectOption[]
   placeholder?: string
   clearable?: boolean
   icon?: IconSvgElement
@@ -24,11 +24,7 @@ interface CustomSelectProps<T extends FieldValues> {
 const CustomSelect = <T extends FieldValues>({
   name,
   control,
-  options = [
-    { value: 'anunciado', label: 'Anunciado' },
-    { value: 'vendido', label: 'Vendido' },
-    { value: 'desativado', label: 'Desativado' }
-  ],
+  options,
   placeholder = 'Status',
   clearable = true,
   icon

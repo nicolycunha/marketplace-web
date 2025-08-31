@@ -1,20 +1,25 @@
 interface TagStatusProps {
-  text: 'anunciado' | 'vendido' | 'desativado'
+  text: 'available' | 'sold' | 'canceled'
 }
 
 export function TagStatus({ text }: TagStatusProps) {
-  const color =
-    text === 'anunciado'
-      ? 'bg-blue-dark'
-      : text === 'vendido'
-      ? 'bg-success'
-      : 'bg-gray-300'
+  const statusDisplay = {
+    available: 'Anunciado',
+    sold: 'Vendido',
+    canceled: 'Desativado'
+  }
+
+  const colorMap = {
+    available: 'bg-blue-dark',
+    sold: 'bg-success',
+    canceled: 'bg-gray-300'
+  }
 
   return (
     <span
-      className={`w-fit py-1 px-2 rounded-2xl uppercase font-label-sm text-white ${color}`}
+      className={`w-fit py-1 px-2 rounded-2xl uppercase font-label-sm text-white ${colorMap[text]}`}
     >
-      {text}
+      {statusDisplay[text]}
     </span>
   )
 }

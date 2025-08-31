@@ -7,7 +7,8 @@ interface PictureProps {
 }
 
 export function Picture({ size, preview = null }: PictureProps) {
-  const baseClasses = 'flex items-center justify-center bg-shape aspect-square'
+  const baseClasses =
+    'flex items-center justify-center bg-shape aspect-square cursor-pointer'
 
   const isNotSmall = size !== 'sm'
   const isExtraLarge = size === 'xl'
@@ -30,7 +31,7 @@ export function Picture({ size, preview = null }: PictureProps) {
             src={preview}
             alt="Pré-visualização"
             className={`object-cover w-full h-full rounded-xl opacity-100 ${
-              isNotSmall ? 'hover:opacity-5 cursor-pointer' : ''
+              isNotSmall ? 'hover:opacity-5' : ''
             }`}
           />
 

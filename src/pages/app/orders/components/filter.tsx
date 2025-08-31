@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
+import { Status } from '@/types/enums'
 
 const orderFiltersSchema = z.object({
   search: z.string().optional(),
@@ -55,6 +56,11 @@ export function Filter({ onFiltersChange, initialValues }: FilterProps) {
     onFiltersChange(filters)
   }
 
+  const statusOptions = Object.entries(Status).map(([key, value]) => ({
+    value: key.toLowerCase(),
+    label: value
+  }))
+
   return (
     <form
       onSubmit={handleSubmit(handleFilter)}
@@ -77,7 +83,12 @@ export function Filter({ onFiltersChange, initialValues }: FilterProps) {
         </div>
       </div>
 
-      <CustomSelect name="status" control={control} icon={SaleTag02Icon} />
+      <CustomSelect
+        name="status"
+        control={control}
+        icon={SaleTag02Icon}
+        options={statusOptions}
+      />
 
       <button
         className="bg-orange-base w-full mt-10 font-action-md border-none p-4 rounded-xl text-white hover:cursor-pointer hover:bg-orange-dark"
