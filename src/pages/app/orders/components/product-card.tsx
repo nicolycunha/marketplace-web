@@ -22,7 +22,7 @@ export function ProductCard({
 
   return (
     <div
-      className="relative w-full p-1 flex flex-col bg-white rounded-3xl hover:shadow-md transition-shadow hover:cursor-pointer"
+      className="relative w-full p-1 flex flex-col bg-white rounded-3xl hover:border-2 hover:border-blue-base transition-shadow hover:cursor-pointer"
       onClick={() => handleEditProduct(id)}
     >
       {attachment && (

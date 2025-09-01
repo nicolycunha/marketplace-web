@@ -82,7 +82,7 @@ export function Orders() {
         <div className="col-span-2 flex flex-col xl:grid xl:grid-cols-2 gap-4">
           {filteredProducts.length > 0 ? (
             filteredProducts.map(product => (
-              <ProductCard key={product.title} {...product} />
+              <ProductCard key={product.id} {...product} />
             ))
           ) : (
             <div className="col-span-2 text-center py-8 text-gray-500">

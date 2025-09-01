@@ -7,7 +7,7 @@ export interface ProductType {
   title: string
   description: string
   priceInCents: number
-  status: 'available' | 'sold' | 'canceled'
+  status: 'available' | 'sold' | 'cancelled'
   owner: UserType
   category: CategoryType
   attachments: AttachmentType[]

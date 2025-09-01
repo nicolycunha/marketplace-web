@@ -1,18 +1,18 @@
 interface TagStatusProps {
-  text: 'available' | 'sold' | 'canceled'
+  text: 'available' | 'sold' | 'cancelled'
 }
 
 export function TagStatus({ text }: TagStatusProps) {
   const statusDisplay = {
     available: 'Anunciado',
     sold: 'Vendido',
-    canceled: 'Desativado'
+    cancelled: 'Desativado'
   }
 
   const colorMap = {
     available: 'bg-blue-dark',
     sold: 'bg-success',
-    canceled: 'bg-gray-300'
+    cancelled: 'bg-gray-300'
   }
 
   return (
