@@ -1,20 +1,41 @@
 import {
   ChartHistogramIcon,
+  LogoutCircle02Icon,
   PackageIcon,
   PlusSignIcon
 } from '@hugeicons/core-free-icons'
 import Logo from '../../assets/logo.svg'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { Picture } from '../forms/picture'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { getSellerProfile } from '@/api/services/get-seller-profile'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '../ui/dropdown-menu'
+import { signOut } from '@/api/services/sign-out'
+import { authConfig } from '@/utils/auth'
 
 export function Header() {
+  const navigate = useNavigate()
+
   const { data: seller } = useQuery({
     queryKey: ['seller'],
     queryFn: getSellerProfile,
     staleTime: Infinity
+  })
+
+  const { mutateAsync: signOutMutation } = useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      localStorage.removeItem(authConfig.TOKEN_KEY)
+      navigate('/sign-in', { replace: true })
+    }
   })
 
   return (
@@ -58,7 +79,29 @@ export function Header() {
           <HugeiconsIcon icon={PlusSignIcon} className="h-4 w-4" />
           Novo produto
         </NavLink>
-        <Picture size="sm" preview={seller?.seller.avatar.url} />
+        <DropdownMenu>
+          <DropdownMenuTrigger className="border-none cursor-pointer">
+            <Picture size="sm" preview={seller?.seller.avatar.url} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-white border-none mr-4 mt-3 p-4 rounded-xl w-42">
+            <DropdownMenuLabel className="flex items-center gap-3 cursor-default font-body-sm text-gray-300">
+              <Picture size="xs" preview={seller?.seller.avatar.url} />
+
+              {seller?.seller.name}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="border-b border-shape my-3" />
+            <DropdownMenuItem
+              className="text-orange-base font-action-sm flex items-center justify-between cursor-pointer"
+              onClick={() => signOutMutation()}
+            >
+              Sair
+              <HugeiconsIcon
+                icon={LogoutCircle02Icon}
+                className="h-1.5 w-1.5"
+              />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )

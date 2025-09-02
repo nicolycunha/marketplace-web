@@ -2,7 +2,7 @@ import { ImageUploadIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 
 interface PictureProps {
-  size?: 'sm' | 'lg' | 'xl'
+  size?: 'xs' | 'sm' | 'lg' | 'xl'
   preview?: string | null
 }
 
@@ -10,12 +10,14 @@ export function Picture({ size, preview = null }: PictureProps) {
   const baseClasses =
     'flex items-center justify-center bg-shape aspect-square cursor-pointer'
 
-  const isNotSmall = size !== 'sm'
+  const isNotSmall = size !== 'xs' && size !== 'sm'
   const isExtraLarge = size === 'xl'
 
   let sizeClass = ''
 
-  if (size === 'sm') {
+  if (size === 'xs') {
+    sizeClass = 'w-8 h-8 rounded-xl'
+  } else if (size === 'sm') {
     sizeClass = 'w-12 h-12 rounded-xl'
   } else if (size === 'lg') {
     sizeClass = 'w-24 h-24 rounded-xl'
