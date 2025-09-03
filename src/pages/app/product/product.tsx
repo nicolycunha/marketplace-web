@@ -49,6 +49,7 @@ type ProductForm = z.infer<typeof productForm>
 
 export function Product() {
   const [preview, setPreview] = useState<string | null>(null)
+  const [readOnly, setReadOnly] = useState<boolean>(false)
   const [categoriesOptions, setCategoriesOptions] = useState<
     CustomSelectOption[]
   >([])
@@ -186,6 +187,8 @@ export function Product() {
       if (product.attachments && product.attachments.length > 0) {
         setPreview(product.attachments[0].url)
       }
+
+      setReadOnly(product?.status == 'sold' || product?.status == 'cancelled')
     }
   }, [product, isEditing, isLoadingProduct, setValue])
 
@@ -278,7 +281,8 @@ export function Product() {
         {isEditing && (
           <section className="flex gap-4">
             <button
-              className="flex items-center gap-2 text-orange-base font-action-sm cursor-pointer"
+              className="flex items-center gap-2 text-orange-base font-action-sm cursor-pointer disabled:text-gray-200 disabled:cursor-default"
+              disabled={product?.status == 'cancelled'}
               onClick={handleMarkAsSold}
             >
               <HugeiconsIcon icon={Tick02Icon} />
@@ -287,7 +291,8 @@ export function Product() {
                 : 'Marcar como vendido'}
             </button>
             <button
-              className="flex items-center gap-2 text-orange-base font-action-sm cursor-pointer"
+              className="flex items-center gap-2 text-orange-base font-action-sm cursor-pointer disabled:text-gray-200 disabled:cursor-default"
+              disabled={product?.status == 'sold'}
               onClick={handleDeactivate}
             >
               <HugeiconsIcon
@@ -314,6 +319,7 @@ export function Product() {
               type="file"
               accept=".jpg,.jpeg,.png,.webp"
               hidden
+              disabled={readOnly}
               {...register('file')}
             />
           </label>
@@ -344,6 +350,7 @@ export function Product() {
                   className="appearance-none bg-transparent border-none h-12 w-full text-gray-400 font-body-md placeholder:text-gray-200 focus:outline-none focus:caret-orange-base "
                   id="title"
                   placeholder="Nome do produto"
+                  disabled={readOnly}
                   {...register('title')}
                 />
               </div>
@@ -365,10 +372,11 @@ export function Product() {
               <div className="flex justify-between items-center border-b border-gray-100 text-color-400 font-body-md">
                 <span className="pr-1">R$</span>
                 <input
-                  className="appearance-none bg-transparent border-none h-12 w-full placeholder:text-gray-200 focus:outline-none focus:caret-orange-base "
+                  className="appearance-none bg-transparent border-none h-12 w-full placeholder:text-gray-200 focus:outline-none focus:caret-orange-base disabled"
                   type="text"
                   id="price"
                   placeholder="0,00"
+                  disabled={readOnly}
                   {...priceProps}
                   key={product?.priceInCents || 'new'}
                 />
@@ -398,6 +406,7 @@ export function Product() {
                 id="description"
                 placeholder="Escreva detalhes sobre o produto, tamanho, características"
                 rows={4}
+                disabled={readOnly}
                 {...register('description')}
               />
             </div>
@@ -421,6 +430,7 @@ export function Product() {
               control={control}
               placeholder="Selecione"
               options={categoriesOptions}
+              disabled={readOnly}
             />
             {errors.category && (
               <span className="flex items-center gap-1 mt-1 text-orange-base text-sm">

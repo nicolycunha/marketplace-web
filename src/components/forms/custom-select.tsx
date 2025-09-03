@@ -19,6 +19,7 @@ interface CustomSelectProps<T extends FieldValues> {
   placeholder?: string
   clearable?: boolean
   icon?: IconSvgElement
+  disabled?: boolean
 }
 
 const CustomSelect = <T extends FieldValues>({
@@ -27,7 +28,8 @@ const CustomSelect = <T extends FieldValues>({
   options,
   placeholder = 'Status',
   clearable = true,
-  icon
+  icon,
+  disabled = false
 }: CustomSelectProps<T>) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const selectRef = useRef<HTMLDivElement>(null)
@@ -50,6 +52,7 @@ const CustomSelect = <T extends FieldValues>({
     <Controller
       name={name}
       control={control}
+      disabled={disabled}
       render={({ field: { onChange, value } }) => {
         const selectedOption = options.find(option => option.value === value)
         const selectedLabel = selectedOption?.label || ''
@@ -60,6 +63,7 @@ const CustomSelect = <T extends FieldValues>({
         }
 
         const handleClear = (event: React.MouseEvent): void => {
+          if (disabled) return
           event.stopPropagation()
           onChange('')
           setIsOpen(false)
@@ -70,7 +74,7 @@ const CustomSelect = <T extends FieldValues>({
         ): void => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault()
-            setIsOpen(!isOpen)
+            setIsOpen(!disabled && !isOpen)
           } else if (event.key === 'Escape') {
             setIsOpen(false)
           }
@@ -90,7 +94,7 @@ const CustomSelect = <T extends FieldValues>({
           <div className="w-full flex justify-between items-center border-b border-gray-100">
             <div
               className="relative flex gap-2 items-center w-full"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen(!disabled && !isOpen)}
               ref={selectRef}
             >
               {icon && (
