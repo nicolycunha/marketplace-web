@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 import { ProductType } from '@/types/product.types'
 
 interface GetProductByIdParams {
-  id: string
+  id?: string
 }
 
 interface GetProductByIdResponse {

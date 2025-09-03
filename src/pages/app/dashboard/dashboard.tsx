@@ -1,10 +1,7 @@
-import { Chart } from '@/pages/app/dashboard/components/chart'
-import { Card } from '@/pages/app/dashboard/components/dashboard-card'
-import {
-  SaleTag02Icon,
-  Store04Icon,
-  UserMultiple02Icon
-} from '@hugeicons/core-free-icons'
+import { ViewsReceivedPerDayChart } from '@/pages/app/dashboard/components/views-received-per-day-chart'
+import { ProductsSoldBySellerChart } from './components/products-sold-by-seller-chart'
+import { ProductsAvailableBySeller } from './components/products-available-by-seller'
+import { ViewsReceivedBySeller } from './components/views-received-by-seller'
 
 export function Dashboard() {
   return (
@@ -16,26 +13,11 @@ export function Dashboard() {
 
       <section className="flex gap-8">
         <div className="flex flex-col gap-4">
-          <Card
-            icon={SaleTag02Icon}
-            value={24}
-            firstText="Produtos"
-            secondText="vendidos"
-          />
-          <Card
-            icon={Store04Icon}
-            value={56}
-            firstText="Produtos"
-            secondText="anunciados"
-          />
-          <Card
-            icon={UserMultiple02Icon}
-            value={1238}
-            firstText="Pessoas"
-            secondText="visitantes"
-          />
+          <ProductsSoldBySellerChart />
+          <ProductsAvailableBySeller />
+          <ViewsReceivedBySeller />
         </div>
-        <Chart />
+        <ViewsReceivedPerDayChart />
       </section>
     </div>
   )

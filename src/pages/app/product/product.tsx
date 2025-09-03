@@ -22,7 +22,6 @@ import { TagStatus } from '../orders/components/tag-status'
 import { getProductById } from '@/api/services/get-product-by-id'
 import { updateProduct } from '@/api/services/update-product'
 import { updateStatusProduct } from '@/api/services/update-status-product'
-import { Status } from '@/types/enums'
 import { queryClient } from '@/lib/react-query'
 
 const productForm = z.object({

@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 import { ProductType } from '@/types/product.types'
 
 interface UpdateProductBody {
-  id: string
+  id?: string
   title: string
   categoryId: string
   description: string
